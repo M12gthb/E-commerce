@@ -10,28 +10,39 @@
   <body>
     <header>
       <h2 class="headerTitle">Geekstore</h2>
-      <div class="cart">
+      <div class="cart-Button">
         <p class="cartCont">0</p>
-        <img src="./assets/shopping-cart-icon.svg" alt="" />
+        <img src="./assets/shopping-cart-icon.svg" class="cart-image" />
       </div>
     </header>
 
-    <main class="app-Continer">
+    <main class="app-continer">
       <div class="app-filterAndSelect">
-        <div>
-          <input type="search" name="" id="" />
-          <img src="./assets/search-icon.svg" alt="" />
+        <div class="search-container">
+          <input
+            type="search"
+            class="searchBar"
+            placeholder="Procure seu produto..."
+          />
+          <img src="./assets/search-icon.svg" alt="lupa" />
         </div>
-        <select name="" id="">
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
+        <select class="select">
+          <option value="">Filtro</option>
+          <option value="Todos">Todos</option>
+          <option value="Camisetas">Camisetas</option>
+          <option value="Figures">Figures</option>
+          <option value="Acessórios">Acessórios</option>
+          <option value="Games">Games</option>
         </select>
       </div>
 
       <ul class="cards-Container"></ul>
+
+      <div class="pagination-container">
+        <button class="next"><</button>
+        <p class="pagination-text"></p>
+        <button class="previous">></button>
+      </div>
 
       <dialog class="cart">
         <div class="cart-Container"></div>
