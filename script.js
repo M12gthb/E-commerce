@@ -22,6 +22,7 @@ async function main() {
     try {
         let products = await requestCompanies();
         renderCards(products,0)
+        setupPagination(products)
     } catch (error) {
         console.error('Erro ao buscar produtos:', error);
     }
@@ -39,6 +40,8 @@ const select = document.querySelector(".select");
 const cartButton = document.querySelector(".cart-Button");
 const cartModal = document.querySelector(".cart");
 const cardModal = document.querySelector(".details");
+const nextPage = document.querySelector(".next")
+const previusPage = document.querySelector(".previous")
 
 
 // Lógica do retorno do footer
@@ -53,12 +56,12 @@ footerButton.addEventListener("click", () => {
 function renderCards (products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
     const paginationText = document.querySelector(".pagination-text")
-    const startIndex = pageIndex * Math.ceil(products.length / 6);
-    const endIndex = startIndex + Math.ceil(products.length / 6);
+    const startIndex = pageIndex * Math.ceil(products.length / 10);
+    const endIndex = startIndex + Math.ceil(products.length / 10);
     const pageItems = products.slice(startIndex, endIndex);
     ul.innerHTML = "";
 
-    paginationText.innerText = ` ${startIndex + 1 } de ${endIndex + 1}`
+    paginationText.innerText = ` ${index == 0 ? 1 : index + 1} de ${Math.ceil(products.length / 10) }`
 
     for(let i = 0; i < pageItems.length; i++){
         const li = document.createElement('li');
@@ -90,13 +93,36 @@ function renderCards (products, pageIndex) {
         divButtons.className = "divButtons"
         divButtons.append(detailButton, addButton)
 
-        li.append(img, type, name, price, divButtons);
+        li.append(img,type, name, price, divButtons);
         ul.appendChild(li);
     }
 }
 
 
 // Paginação
+function setupPagination(products){
+    nextPage.addEventListener("click", () => {
+        index++
+    if(index < 0){
+        index = 0
+    }else if(index >= Math.ceil(products.length / 10)){
+            index = Math.ceil(products.length / 10) - 1
+        }
+        console.log(index)
+    renderCards(products, index)
+})
+
+    previusPage.addEventListener("click", () => {
+        index--
+    if(index < 0){
+        index = 0
+    }else if(index >= Math.ceil(products.length / 10)){
+            index = Math.ceil(products.length / 10) - 1  
+        }
+        console.log(index)
+    renderCards(products, index)
+    })
+}
 
 
 // Barra de pesquisa
