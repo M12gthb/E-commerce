@@ -1,10 +1,12 @@
-// Requisição
+let cart = new Map
+
 async function main() {
     try {
         products = await requestCompanies();
         renderCards(products,0)
         setupPagination(products)
         setUpSearch(products)
+        verifylocalStorage()
         renderCart()
         footerButton()
     } catch (error) {
@@ -30,7 +32,6 @@ async function requestCompanies() {
     }
 }
 
-// Lógica do retorno do footer
 function footerButton() {
     const footerButton = document.querySelector(".footer-button");
     footerButton.addEventListener("click", () => {
@@ -41,7 +42,49 @@ function footerButton() {
     })
 }
 
-// Renderizar os posts
+function createProductElement(product) {
+    const li = document.createElement('li');
+    li.className = 'card';
+    
+    const img = document.createElement('img');
+    img.src = product.image;
+    img.alt = "Imagem";
+    img.className = "imag";
+    img.onerror = function () {
+        img.src = "./assets/error.jpg";
+    };
+
+    const type = document.createElement('div');
+    type.className = "typeCard";
+    type.innerText = product.type;
+
+    const name = document.createElement('h3');
+    name.id = "nameCard";
+    name.innerText = product.name;
+
+    const price = document.createElement('p');
+    price.id = "priceCard";
+    price.innerText = `R$ ${product.price.toFixed(2)}`;
+
+    const detailButton = document.createElement("button");
+    detailButton.id = product.id;
+    detailButton.className = "detail";
+    detailButton.innerText = "Detalhes";
+
+    const addButton = document.createElement('button');
+    addButton.className = "add";
+    addButton.innerText = "+";
+    addButton.id = product.id;
+
+    const divButtons = document.createElement('div');
+    divButtons.className = "divButtons";
+    divButtons.append(detailButton, addButton);
+
+    li.append(img, type, name, price, divButtons);
+
+    return li;
+}
+
 function renderCards(products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
     const paginationText = document.querySelector(".pagination-text");
@@ -50,12 +93,12 @@ function renderCards(products, pageIndex) {
     const startIndex = pageIndex * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, products.length);
     const pageItems = products.slice(startIndex, endIndex);
-    const nextPage = document.querySelector(".next")
-    const previusPage = document.querySelector(".previous")
+    const nextPage = document.querySelector(".next");
+    const previusPage = document.querySelector(".previous");
     const cardModal = document.querySelector(".details");
     
     if (pageIndex >= totalPages) {
-        pageIndex = totalPages -1;
+        pageIndex = totalPages - 1;
     }
     if (pageIndex < 0) {
         pageIndex = 0;
@@ -65,8 +108,8 @@ function renderCards(products, pageIndex) {
         paginationText.innerText = ` ${pageIndex + 1} de ${totalPages}`;
         paginationText.style.display = "block";
         previusPage.style.display = "block";
-        nextPage.style.display = "block"
-    }else {
+        nextPage.style.display = "block";
+    } else {
         paginationText.style.display = "none";
         previusPage.style.display = "none";
         nextPage.style.display = "none";
@@ -74,70 +117,21 @@ function renderCards(products, pageIndex) {
     
     ul.innerHTML = "";
     
-    function createProductElement(product) {
-        const li = document.createElement('li');
-        li.className = 'card';
-        
-        const img = document.createElement('img');
-        img.src = product.image;
-        img.alt = "Imagem";
-        img.className = "imag";
-        img.onerror = function () {
-            img.src = "./assets/error.jpg";
-        };
-        
-        const type = document.createElement('div');
-        type.className = "typeCard";
-        type.innerText = product.type;
-        
-        const name = document.createElement('h3');
-        name.id = "nameCard";
-        name.innerText = product.name;
-        
-        const price = document.createElement('p');
-        price.id = "priceCard";
-        price.innerText = `R$ ${product.price.toFixed(2)}`;
-        
-        const detailButton = document.createElement("button");
-        detailButton.id = product.id
-        detailButton.className = "detail";
-        detailButton.innerText = "Detalhes";
-        
-        const addButton = document.createElement('button');
-        addButton.className = "add";
-        addButton.innerText = "+";
-        addButton.id = product.id;
-        
-        const divButtons = document.createElement('div');
-        divButtons.className = "divButtons";
-        divButtons.append(detailButton, addButton);
-        
-        li.append(img, type, name, price, divButtons);
-        
-        return li;
-    }
-    
     for (let i = 0; i < pageItems.length; i++) {
         const productElement = createProductElement(pageItems[i]);
         ul.appendChild(productElement);
     }
-    const cardButton = document.querySelectorAll(".detail")
-       cardButton.forEach(card => 
-        card.addEventListener("click", () => {
-        const closeButton = document.querySelector(".details-closeButton")
-        cardModal.showModal()
-        console.log(card.id)
-        closeButton.addEventListener("click", () => {
-            cardModal.close()
+
+    const cardButton = document.querySelectorAll(".detail");
+    cardButton.forEach(card => 
+        card.addEventListener("click", () => {;
+            renderModalDetail(card.id, products)
+            cardModal.showModal();
+            
         })
-        cardModal.addEventListener('click', (event) => {
-        if (event.target === cardModal) {
-                cardModal.close();
-            }
-        })
-    }))
-    const addButton = document.querySelectorAll(".add")
-    
+    );
+
+    const addButton = document.querySelectorAll(".add");
     addButton.forEach(button => {
         button.addEventListener("click", () => {
             const findProduct = products.find(element => element.id == button.id);
@@ -146,18 +140,18 @@ function renderCards(products, pageIndex) {
                     const currentItem = cart.get(findProduct.id);
                     currentItem.count += 1;
                     cart.set(findProduct.id, currentItem);
-                    renderCart(cart)
+                    renderCart(cart);
                 } else {
                     cart.set(findProduct.id, { findProduct: findProduct, count: 1 });
+                    renderCart(cart);
                 }
+                updateLocalStorage()
             }
-            renderCart(cart)
         });
     });
-    
 }
 
-// Paginação
+
 function setupPagination(products) {
     const totalPages = Math.ceil(products.length / 10); 
     const nextPage = document.querySelector(".next")
@@ -180,32 +174,51 @@ function setupPagination(products) {
     renderCards(products, index);
 }
 
-// Barra de pesquisa
-function setUpSearch(products){
-    const allProducts = products
+function setUpSearch(products) {
+    const allProducts = products;
     const search = document.querySelector(".searchBar");
     const select = document.querySelector(".select");
+    const sort = document.querySelector(".sort");
+
     search.addEventListener("input", (e) => {
-        if(e.target.value == ""){
-            renderCards(allProducts,0)
+        if (e.target.value === "") {
+            renderCards(allProducts, 0);
+            setupPagination(allProducts);
+        } else {
+            const filteredProducts = allProducts.filter((element) => element.name.toLowerCase().includes(e.target.value.toLowerCase()));
+            renderCards(filteredProducts, 0);
+            setupPagination(filteredProducts);
         }
-        const filteredProducts = allProducts.filter((element) => element.name.toLowerCase().includes(e.target.value.toLowerCase()))
-        renderCards(filteredProducts, 0)
-        setupPagination(filteredProducts)
-    })
+    });
+
     select.addEventListener("change", (e) => {
-        if(e.target.value == ""){
-            renderCards(allProducts,0)
+        if (e.target.value === "") {
+            renderCards(allProducts, 0);
+            setupPagination(allProducts);
+        } else {
+            const filteredProductsbyType = allProducts.filter((element) => element.type.toLowerCase().includes(e.target.value.toLowerCase()));
+            renderCards(filteredProductsbyType, 0);
+            setupPagination(filteredProductsbyType);
         }
-        const filteredProductsbyType = allProducts.filter((element) => element.type.toLowerCase().includes(e.target.value.toLowerCase()))
-        renderCards(filteredProductsbyType, 0)
-        setupPagination(filteredProductsbyType)
-    })
+    });
+
+    sort.addEventListener("change", (e) => {
+        if (e.target.value === "") {
+            return 
+        } else if (e.target.value === "Ascendente") {
+            const sortedProducts = [...allProducts].sort((a, b) => a.name.localeCompare(b.name));
+            renderCards(sortedProducts, 0);
+            setupPagination(sortedProducts);
+        } else if (e.target.value === "Descendente") {
+            const sortedProducts = [...allProducts].sort((a, b) => b.name.localeCompare(a.name));
+            renderCards(sortedProducts, 0);
+            setupPagination(sortedProducts);
+        }
+    });
 }
 
-// Abrir e fechar o carrinho e Renderizar o carrinho
+
 function renderCart() {
-    let cart = new Map;
     const ul = document.querySelector(".cart-ul");
     const cartButton = document.querySelector(".cart-Button");
     const cartModal = document.querySelector(".cart");
@@ -255,6 +268,7 @@ function renderCart() {
             
             const img = document.createElement("img");
             img.src = element.findProduct.image;
+            img.alt = element.findProduct.name
             
             const title = document.createElement("h3");
             title.innerText = element.findProduct.name;
@@ -299,18 +313,70 @@ function updateCount(productId, change, cart) {
         }
         renderCart(cart); 
     }
+    updateLocalStorage()
 }
 
 function removeItem(productId, cart) {
     cart.delete(productId);
     renderCart(cart); 
+    updateLocalStorage()
 }
 
-// Renderizar as informações do modal de posts
+function renderModalDetail(id, product){
+    const findProduct = product.find(element => element.id == id)
+    const modal = document.querySelector(".details")
+    const modalContainer = document.querySelector(".details-Container")
+    const name = document.querySelector("h3")
+    const image = document.createElement("img")
+    const type = document.createElement("p")
+    const price = document.createElement("p")
+    const text = document.createElement("p")
 
+    modalContainer.innerHTML = ""
 
-// Manter itens no carrinho
+    const closeButton = document.createElement("button")
+    closeButton.className = "details-closeButton"
+    closeButton.innerText = "X"
 
+    closeButton.addEventListener("click", () => {
+        modal.close();
+    });
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.close();
+        }
+    });
+    
+    name.className ="detail-name"
+    image.className = "detail-image"
+    type.className = "detail-type"
+    price.className = "detail-price"
+    text.className = "detail-text"
 
-// Chamado das funções
+    name.innerText = findProduct.name
+    image.src = findProduct.image
+    image.alt = findProduct.name
+    type.innerText = findProduct.type
+    price.innerText = `R$ ${findProduct.price.toFixed(2)}`
+    text.innerText = findProduct.text
+
+    modalContainer.append(closeButton,name, image, type, price, text)
+}
+
+export function verifylocalStorage() {
+    const verification = localStorage.getItem("cart");
+
+    if (!verification || verification == "") {
+        cart = new Map();
+    } else {
+        const storedCart = JSON.parse(verification);
+        cart = new Map(Object.entries(storedCart).map(([key, value]) => [parseInt(key), value]));
+    }
+}
+
+function updateLocalStorage() {
+    const cartObject = Object.fromEntries(cart);
+    localStorage.setItem("cart", JSON.stringify(cartObject));
+}
+
 main()
