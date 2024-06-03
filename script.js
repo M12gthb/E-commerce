@@ -363,7 +363,7 @@ function renderModalDetail(id, product){
     modalContainer.append(closeButton,name, image, type, price, text)
 }
 
-export function verifylocalStorage() {
+function verifylocalStorage() {
     const verification = localStorage.getItem("cart");
 
     if (!verification || verification == "") {
