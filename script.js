@@ -1,14 +1,14 @@
-let cart = new Map
+let cart = new Map();
 
 async function main() {
     try {
-        products = await requestCompanies();
-        renderCards(products,0)
-        setupPagination(products)
-        setUpSearch(products)
-        verifylocalStorage()
-        renderCart()
-        footerButton()
+        let products = await requestCompanies();
+        renderCards(products, 0);
+        setupPagination(products);
+        setUpSearch(products);
+        verifylocalStorage();
+        renderCart();
+        footerButton();
     } catch (error) {
         console.error('Erro ao buscar produtos:', error);
     }
@@ -16,8 +16,9 @@ async function main() {
 
 async function requestCompanies() {
     try {
-        const response = await fetch(`https://ecommerce-fake-api-two.vercel.app/products`, {
-            method: "GET",
+        console.log("Fazendo fetch para os produtos...");
+        const response = await fetch('https://ecommerce-fake-api-two.vercel.app/products', {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -25,7 +26,9 @@ async function requestCompanies() {
 
         if (response.ok) {
             const data = await response.json();
-            return data; 
+            return data;
+        } else {
+            console.error('Erro na resposta:', response.status);
         }
     } catch (error) {
         console.error('Erro na requisição:', error);
@@ -33,51 +36,51 @@ async function requestCompanies() {
 }
 
 function footerButton() {
-    const footerButton = document.querySelector(".footer-button");
-    footerButton.addEventListener("click", () => {
+    const footerButton = document.querySelector('.footer-button');
+    footerButton.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth",
+            behavior: 'smooth'
         });
-    })
+    });
 }
 
 function createProductElement(product) {
     const li = document.createElement('li');
     li.className = 'card';
-    
+
     const img = document.createElement('img');
     img.src = product.image;
-    img.alt = "Imagem";
-    img.className = "imag";
+    img.alt = 'Imagem';
+    img.className = 'imag';
     img.onerror = function () {
-        img.src = "./assets/error.jpg";
+        img.src = './assets/error.jpg';
     };
 
     const type = document.createElement('div');
-    type.className = "typeCard";
+    type.className = 'typeCard';
     type.innerText = product.type;
 
     const name = document.createElement('h3');
-    name.id = "nameCard";
+    name.id = 'nameCard';
     name.innerText = product.name;
 
     const price = document.createElement('p');
-    price.id = "priceCard";
+    price.id = 'priceCard';
     price.innerText = `R$ ${product.price.toFixed(2)}`;
 
-    const detailButton = document.createElement("button");
+    const detailButton = document.createElement('button');
     detailButton.id = product.id;
-    detailButton.className = "detail";
-    detailButton.innerText = "Detalhes";
+    detailButton.className = 'detail';
+    detailButton.innerText = 'Detalhes';
 
     const addButton = document.createElement('button');
-    addButton.className = "add";
-    addButton.innerText = "+";
+    addButton.className = 'add';
+    addButton.innerText = '+';
     addButton.id = product.id;
 
     const divButtons = document.createElement('div');
-    divButtons.className = "divButtons";
+    divButtons.className = 'divButtons';
     divButtons.append(detailButton, addButton);
 
     li.append(img, type, name, price, divButtons);
@@ -87,101 +90,98 @@ function createProductElement(product) {
 
 function renderCards(products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
-    const paginationText = document.querySelector(".pagination-text");
-    const itemsPerPage = 10; 
+    const paginationText = document.querySelector('.pagination-text');
+    const itemsPerPage = 10;
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const startIndex = pageIndex * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, products.length);
-    const pageItems = products.slice(startIndex, endIndex);
-    const nextPage = document.querySelector(".next");
-    const previusPage = document.querySelector(".previous");
-    const cardModal = document.querySelector(".details");
-    
+    const nextPage = document.querySelector('.next');
+    const previusPage = document.querySelector('.previous');
+
     if (pageIndex >= totalPages) {
         pageIndex = totalPages - 1;
     }
     if (pageIndex < 0) {
         pageIndex = 0;
     }
-    
+
     if (totalPages > 1) {
         paginationText.innerText = ` ${pageIndex + 1} de ${totalPages}`;
-        paginationText.style.display = "block";
-        previusPage.style.display = "block";
-        nextPage.style.display = "block";
+        paginationText.style.display = 'block';
+        previusPage.style.display = 'block';
+        nextPage.style.display = 'block';
     } else {
-        paginationText.style.display = "none";
-        previusPage.style.display = "none";
-        nextPage.style.display = "none";
+        paginationText.style.display = 'none';
+        previusPage.style.display = 'none';
+        nextPage.style.display = 'none';
     }
-    
-    ul.innerHTML = "";
-    
-    for (let i = 0; i < pageItems.length; i++) {
-        const productElement = createProductElement(pageItems[i]);
+
+    ul.innerHTML = '';
+
+    for (let i = 0; i < endIndex - startIndex; i++) {
+        const productElement = createProductElement(products[startIndex + i]);
         ul.appendChild(productElement);
     }
 
-    const cardButton = document.querySelectorAll(".detail");
-    cardButton.forEach(card => 
-        card.addEventListener("click", () => {;
-            renderModalDetail(card.id, products)
-            cardModal.showModal();
-            
-        })
-    );
+    const cardButton = document.querySelectorAll('.detail');
+    cardButton.forEach(card => {
+        card.addEventListener('click', () => {
+            localStorage.setItem("cartDetailId", card.id);
+            window.location.assign("Pages/DetailPage/detailPage.html");
+        });
+    });
+    
 
-    const addButton = document.querySelectorAll(".add");
+    const addButton = document.querySelectorAll('.add');
     addButton.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener('click', () => {
             const findProduct = products.find(element => element.id == button.id);
             if (findProduct) {
                 if (cart.has(findProduct.id)) {
                     const currentItem = cart.get(findProduct.id);
                     currentItem.count += 1;
                     cart.set(findProduct.id, currentItem);
-                    renderCart(cart);
+                    renderCart();
                 } else {
                     cart.set(findProduct.id, { findProduct: findProduct, count: 1 });
-                    renderCart(cart);
+                    renderCart();
                 }
-                updateLocalStorage()
+                updateLocalStorage();
             }
         });
     });
 }
 
-
 function setupPagination(products) {
-    const totalPages = Math.ceil(products.length / 10); 
-    const nextPage = document.querySelector(".next")
-    const previusPage = document.querySelector(".previous")
+    const totalPages = Math.ceil(products.length / 10);
+    const nextPage = document.querySelector('.next');
+    const previusPage = document.querySelector('.previous');
     let index = 0;
-    
+
     const updatePage = (newIndex) => {
         index = (newIndex + totalPages) % totalPages;
         renderCards(products, index);
     };
-    
-    nextPage.addEventListener("click", () => {
+
+    nextPage.addEventListener('click', () => {
         updatePage(index + 1);
     });
-    
-    previusPage.addEventListener("click", () => {
+
+    previusPage.addEventListener('click', () => {
         updatePage((index - 1 + totalPages) % totalPages);
     });
-    
+
     renderCards(products, index);
 }
 
 function setUpSearch(products) {
     const allProducts = products;
-    const search = document.querySelector(".searchBar");
-    const select = document.querySelector(".select");
-    const sort = document.querySelector(".sort");
+    const search = document.querySelector('.searchBar');
+    const select = document.querySelector('.select');
+    const sort = document.querySelector('.sort');
 
-    search.addEventListener("input", (e) => {
-        if (e.target.value === "") {
+    search.addEventListener('input', (e) => {
+        if (e.target.value === '') {
             renderCards(allProducts, 0);
             setupPagination(allProducts);
         } else {
@@ -191,8 +191,8 @@ function setUpSearch(products) {
         }
     });
 
-    select.addEventListener("change", (e) => {
-        if (e.target.value === "") {
+    select.addEventListener('change', (e) => {
+        if (e.target.value === '') {
             renderCards(allProducts, 0);
             setupPagination(allProducts);
         } else {
@@ -202,21 +202,20 @@ function setUpSearch(products) {
         }
     });
 
-    sort.addEventListener("change", (e) => {
-        if (e.target.value === "") {
-            return 
-        } else if (e.target.value === "Ascendente") {
+    sort.addEventListener('change', (e) => {
+        if (e.target.value === '') {
+            return;
+        } else if (e.target.value === 'Ascendente') {
             const sortedProducts = [...allProducts].sort((a, b) => a.name.localeCompare(b.name));
             renderCards(sortedProducts, 0);
             setupPagination(sortedProducts);
-        } else if (e.target.value === "Descendente") {
+        } else if (e.target.value === 'Descendente') {
             const sortedProducts = [...allProducts].sort((a, b) => b.name.localeCompare(a.name));
             renderCards(sortedProducts, 0);
             setupPagination(sortedProducts);
         }
     });
 }
-
 
 function renderCart() {
     const ul = document.querySelector(".cart-ul");
@@ -245,20 +244,22 @@ function renderCart() {
     if (cart.size == 0) { 
         const title = document.createElement("h1")
         title.innerText = "Carrinho"
+        totalItens.innerHTML = ""
         return ul.appendChild(title)
     }
-    
-    totalItens.innerText = `${Array.from(cart.values()).reduce((acc, item)=> {
-        return acc + item.count
-    },0)}`
-    totalPrice.innerText = `Total: R$ ${Array.from(cart.values()).reduce((acc, item)=> {
-        return acc + (item.count * item.findProduct.price)
-    },0).toFixed(2)}`
-    totalCount.innerText = `Quantidade: ${Array.from(cart.values()).reduce((acc, item)=> {
-        return acc + item.count
-    },0)}`
-    ul.append(totalPrice, totalCount)
-       
+    else{
+        totalItens.innerText = `${Array.from(cart.values()).reduce((acc, item)=> {
+            return acc + item.count
+        },0)}`
+        totalPrice.innerText = `Total: R$ ${Array.from(cart.values()).reduce((acc, item)=> {
+            return acc + (item.count * item.findProduct.price)
+        },0).toFixed(2)}`
+        totalCount.innerText = `Quantidade: ${Array.from(cart.values()).reduce((acc, item)=> {
+            return acc + item.count
+        },0)}`
+        ul.append(totalPrice, totalCount)
+    }
+
     Array.from(cart.values()).forEach((element) => {
         let li = document.getElementById(`cart-item-${element.findProduct.id}`);
         
@@ -299,6 +300,13 @@ function renderCart() {
             li.querySelector(".count").innerText = element.count;
         }
     });
+
+    if (cart.size > 0){
+        const finalbuyer = document.createElement("a")
+        finalbuyer.innerText = "Finalizar Compra"
+        finalbuyer.href = "Pages/PaymentPage/paymentPage.html"
+        ul.appendChild(finalbuyer)
+    }
 }
 
 function updateCount(productId, change, cart) {
@@ -322,47 +330,6 @@ function removeItem(productId, cart) {
     updateLocalStorage()
 }
 
-function renderModalDetail(id, product){
-    const findProduct = product.find(element => element.id == id)
-    const modal = document.querySelector(".details")
-    const modalContainer = document.querySelector(".details-Container")
-    const name = document.querySelector("h3")
-    const image = document.createElement("img")
-    const type = document.createElement("p")
-    const price = document.createElement("p")
-    const text = document.createElement("p")
-
-    modalContainer.innerHTML = ""
-
-    const closeButton = document.createElement("button")
-    closeButton.className = "details-closeButton"
-    closeButton.innerText = "X"
-
-    closeButton.addEventListener("click", () => {
-        modal.close();
-    });
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.close();
-        }
-    });
-    
-    name.className ="detail-name"
-    image.className = "detail-image"
-    type.className = "detail-type"
-    price.className = "detail-price"
-    text.className = "detail-text"
-
-    name.innerText = findProduct.name
-    image.src = findProduct.image
-    image.alt = findProduct.name
-    type.innerText = findProduct.type
-    price.innerText = `R$ ${findProduct.price.toFixed(2)}`
-    text.innerText = findProduct.text
-
-    modalContainer.append(closeButton,name, image, type, price, text)
-}
-
 function verifylocalStorage() {
     const verification = localStorage.getItem("cart");
 
@@ -380,3 +347,6 @@ function updateLocalStorage() {
 }
 
 main()
+
+export {verifylocalStorage, updateCount, updateLocalStorage, renderCart, requestCompanies};
+

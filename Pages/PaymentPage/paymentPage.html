@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/spectacles-icon.svg" type="icon" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="./paymentPage.css" />
+    <title>E-commerce</title>
+  </head>
+  <body>
+    <header>
+      <h2 class="headerTitle">Geekstore</h2>
+      <div class="cart-Button">
+        <p class="cartCont"></p>
+        <img src="../../assets/shopping-cart-icon.svg" class="cart-image" />
+      </div>
+    </header>
+
+    <div class="container">
+      <form id="paymentForm">
+        <div class="form-group">
+          <label for="name">Nome Completo:</label>
+          <input type="text" id="name" name="name" required />
+          <span class="error" id="nameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+          <span class="error" id="emailError"></span>
+        </div>
+        <div class="form-group">
+          <label for="cardNumber">Número do Cartão:</label>
+          <input
+            type="text"
+            id="cardNumber"
+            name="cardNumber"
+            pattern="\d{16}"
+            required
+          />
+          <span class="error" id="cardNumberError"></span>
+        </div>
+        <div class="form-group">
+          <label for="expiryDate"
+            >Data de Validade (MM/AA/AA ou MM/AA/AAAA):</label
+          >
+          <input type="text" id="expiryDate" name="expiryDate" required />
+          <span class="error" id="expiryDateError"></span>
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" name="cvv" pattern="\d{3}" required />
+          <span class="error" id="cvvError"></span>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Pagar" />
+        </div>
+      </form>
+    </div>
+
+    <footer class="footer-Continer">
+      <h2 class="headerTitle">Geekstore</h2>
+      <h2>© 2024 - Todos os direitos reservados.</h2>
+      <button class="footer-button">^</button>
+    </footer>
+
+    <script type="module" src="./paymentPage.js"></script>
+  </body>
+</html>
