@@ -17,7 +17,7 @@ async function main() {
 async function requestCompanies() {
     try {
         console.log("Fazendo fetch para os produtos...");
-        const response = await fetch('https://ecommerce-fake-api-two.vercel.app/products', {
+        const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
