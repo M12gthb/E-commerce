@@ -11,50 +11,32 @@
   <body>
     <header>
       <h2 class="headerTitle">Geekstore</h2>
-      <div class="cart-Button">
-        <p class="cartCont"></p>
-        <img src="../../assets/shopping-cart-icon.svg" class="cart-image" />
-      </div>
     </header>
 
     <div class="container">
+      <div class="paymentList-container"></div>
       <form id="paymentForm">
-        <div class="form-group">
-          <label for="name">Nome Completo:</label>
-          <input type="text" id="name" name="name" required />
-          <span class="error" id="nameError"></span>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
-          <span class="error" id="emailError"></span>
-        </div>
-        <div class="form-group">
-          <label for="cardNumber">Número do Cartão:</label>
-          <input
-            type="text"
-            id="cardNumber"
-            name="cardNumber"
-            pattern="\d{16}"
-            required
-          />
-          <span class="error" id="cardNumberError"></span>
-        </div>
-        <div class="form-group">
-          <label for="expiryDate"
-            >Data de Validade (MM/AA/AA ou MM/AA/AAAA):</label
-          >
-          <input type="text" id="expiryDate" name="expiryDate" required />
-          <span class="error" id="expiryDateError"></span>
-        </div>
-        <div class="form-group">
-          <label for="cvv">CVV:</label>
-          <input type="text" id="cvv" name="cvv" pattern="\d{3}" required />
-          <span class="error" id="cvvError"></span>
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Pagar" />
-        </div>
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" />
+        <span class="error" id="nameError"></span><br />
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" />
+        <span class="error" id="emailError"></span><br />
+
+        <label for="cardNumber">Número do Cartão:</label>
+        <input type="text" id="cardNumber" name="cardNumber" />
+        <span class="error" id="cardNumberError"></span><br />
+
+        <label for="expiryDate">Data de Expiração:</label>
+        <input type="text" id="expiryDate" name="expiryDate" />
+        <span class="error" id="expiryDateError"></span><br />
+
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" />
+        <span class="error" id="cvvError"></span><br />
+
+        <button type="submit">Pagar</button>
       </form>
     </div>
 
