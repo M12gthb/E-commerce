@@ -225,6 +225,7 @@ function renderCart() {
     const totalPrice = document.createElement("h1")
     const totalCount = document.createElement("h1")
     const totalItens = document.querySelector(".cartCont")
+    const removeAllButton = document.createElement("button")
 
     cartButton.addEventListener("click", () => {
         cartModal.showModal();
@@ -293,9 +294,12 @@ function renderCart() {
             decrement.addEventListener("click", () => updateCount(element.findProduct.id, -1, cart));
             increment.addEventListener("click", () => updateCount(element.findProduct.id, 1, cart));
             remove.addEventListener("click", () => removeItem(element.findProduct.id, cart));
+            removeAllButton.innerText = "Remover tudo";
+            removeAllButton.addEventListener("click", () => removeAllCart(cart));
+            
             
             li.append(img, title, decrement, count, increment, remove);
-            ul.appendChild(li); 
+            ul.append(li, removeAllButton); 
         } else {
             li.querySelector(".count").innerText = element.count;
         }
@@ -330,6 +334,12 @@ function removeItem(productId, cart) {
     updateLocalStorage()
 }
 
+function removeAllCart(cart) {
+    cart.clear();
+    updateLocalStorage();
+    renderCart()
+}
+
 function verifylocalStorage() {
     const verification = localStorage.getItem("cart");
 
@@ -348,5 +358,5 @@ function updateLocalStorage() {
 
 main()
 
-export {verifylocalStorage, updateCount, updateLocalStorage, renderCart, requestCompanies};
+export {verifylocalStorage, updateCount, updateLocalStorage, renderCart, requestCompanies, removeItem};
 
