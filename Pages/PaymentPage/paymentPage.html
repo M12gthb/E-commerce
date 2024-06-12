@@ -17,24 +17,49 @@
       <div class="paymentList-container"></div>
       <form id="paymentForm">
         <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Seu nome completo aqui"
+        />
         <span class="error" id="nameError"></span><br />
 
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" />
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Seu email completo aqui"
+        />
         <span class="error" id="emailError"></span><br />
 
         <label for="cardNumber">Número do Cartão:</label>
-        <input type="text" id="cardNumber" name="cardNumber" />
-        <span class="error" id="cardNumberError"></span><br />
+        <div>
+          <input
+            type="text"
+            id="cardNumber"
+            name="cardNumber"
+            placeholder="0000 0000 0000 0000"
+          />
+          <span class="error" id="cardNumberError"></span><br />
+          <img src="../../assets/cartão.svg" alt="Cartão" />
+        </div>
 
-        <label for="expiryDate">Data de Expiração:</label>
-        <input type="text" id="expiryDate" name="expiryDate" />
-        <span class="error" id="expiryDateError"></span><br />
+        <div>
+          <label for="expiryDate">Data de Expiração:</label>
+          <input
+            type="text"
+            id="expiryDate"
+            name="expiryDate"
+            placeholder="00/00"
+          />
+          <span class="error" id="expiryDateError"></span><br />
 
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv" />
-        <span class="error" id="cvvError"></span><br />
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" name="cvv" placeholder="000" />
+          <span class="error" id="cvvError"></span><br />
+        </div>
 
         <button type="submit">Pagar</button>
       </form>
