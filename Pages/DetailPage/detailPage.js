@@ -32,7 +32,7 @@ function renderProductDetailCard(products){
     detail.innerText = product.text
     price.innerText = `R$ ${product.price.toFixed(2)}`
     backToIndex.href = "../../index.html"
-    backToIndex.innerText = "Voltar"
+    backToIndex.innerText = "Continuar comprando"
 
     detailMain.append(img,type,name,detail,price,backToIndex)
 

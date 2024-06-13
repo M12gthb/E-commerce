@@ -17,32 +17,53 @@ async function main() {
 async function requestCompanies() {
     const ul = document.querySelector(".cards-Container")
 
+    if (window.location.pathname === "/") {
     for(let i = 0; i < 10; i++){
         const product = loaderProductEelement()
         console.log(product)
         ul.appendChild(product)
     }
+        try {
+            const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-    try {
-        const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+
+            } else {
+                console.error('Erro na resposta:', response.status);
+        
             }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-
-        } else {
-            console.error('Erro na resposta:', response.status);
-      
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }finally{
+            ul.innerHTML = ""
         }
-    } catch (error) {
-        console.error('Erro na requisição:', error);
-    }finally{
-        ul.innerHTML = ""
+    }else{
+        try {
+            const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+
+            } else {
+                console.error('Erro na resposta:', response.status);
+        
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
     }
 }
 
@@ -288,6 +309,7 @@ function renderCart() {
     const totalCount = document.createElement("h1")
     const totalItens = document.querySelector(".cartCont")
     const removeAllButton = document.createElement("button")
+    const cartCount = document.querySelector(".cartCont")
 
     cartButton.addEventListener("click", () => {
         cartModal.showModal();
@@ -308,9 +330,11 @@ function renderCart() {
         const title = document.createElement("h1")
         title.innerText = "Carrinho"
         totalItens.innerHTML = ""
+        cartCount.style.display = "none"
         return ul.appendChild(title)
     }
     else{
+        cartCount.style.display = "block"
         totalItens.innerText = `${Array.from(cart.values()).reduce((acc, item)=> {
             return acc + item.count
         },0)}`
@@ -370,7 +394,11 @@ function renderCart() {
     if (cart.size > 0){
         const finalbuyer = document.createElement("a")
         finalbuyer.innerText = "Finalizar Compra"
-        finalbuyer.href = "Pages/PaymentPage/paymentPage.html"
+        finalbuyer.href = "/Pages/PaymentPage/paymentPage.html"
+        if (window.location.pathname === "/Pages/DetailPage/detailPage.html") {
+            finalbuyer.href = "../PaymentPage/paymentPage.html"
+        }
+        
         ul.appendChild(finalbuyer)
     }
 }

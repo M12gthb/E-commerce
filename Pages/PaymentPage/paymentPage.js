@@ -149,7 +149,7 @@ function renderCartDetails() {
         const h1 = document.createElement("h1");
         const back = document.createElement("a");
         back.href = "/";
-        back.innerHTML = "Voltar";
+        back.innerHTML = "Continuar Comprando";
         h1.innerText = "Adicione itens ao carrinho";
         container.append(h1, back);
     } else {
@@ -159,6 +159,9 @@ function renderCartDetails() {
         const list = document.createElement("ul");
         const hr = document.createElement("hr");
         const removeAllButton = document.createElement("button");
+        const back = document.createElement("a");
+        back.href = "/";
+        back.innerHTML = "Continuar Comprando";
 
         Array.from(cart.values()).forEach((element) => {
             let li = document.getElementById(`cart-item-${element.findProduct.id}`);
@@ -210,7 +213,7 @@ function renderCartDetails() {
             return acc + (item.count * item.findProduct.price);
         }, 0).toFixed(2)}`;
         
-        container.append(title, list, hr, totalToPay, totalPrice, removeAllButton);
+        container.append(title, list, hr, totalToPay, totalPrice, removeAllButton, back);
     }
 }
 
