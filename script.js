@@ -15,8 +15,15 @@ async function main() {
 }
 
 async function requestCompanies() {
+    const ul = document.querySelector(".cards-Container")
+
+    for(let i = 0; i < 10; i++){
+        const product = loaderProductEelement()
+        console.log(product)
+        ul.appendChild(product)
+    }
+
     try {
-        console.log("Fazendo fetch para os produtos...");
         const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
             method: 'GET',
             headers: {
@@ -27,11 +34,15 @@ async function requestCompanies() {
         if (response.ok) {
             const data = await response.json();
             return data;
+
         } else {
             console.error('Erro na resposta:', response.status);
+      
         }
     } catch (error) {
         console.error('Erro na requisição:', error);
+    }finally{
+        ul.innerHTML = ""
     }
 }
 
@@ -43,6 +54,47 @@ function footerButton() {
             behavior: 'smooth'
         });
     });
+}
+
+function loaderProductEelement(){
+    const li = document.createElement("li")
+    const img = document.createElement('div');
+    const loader = document.createElement("div")
+    const type = document.createElement('div');
+    const name = document.createElement('h3');
+    const price = document.createElement('p');
+    const divButtons = document.createElement('div');
+    const detailButton = document.createElement('button');
+    const addButton = document.createElement('button');
+
+    li.className = 'card';
+
+    img.className = 'imag';
+    loader.className = "loader"
+    img.appendChild(loader)
+
+    type.className = 'typeCard';
+    type.className = "Carregando...";
+
+    name.id = 'nameCard';
+    name.innerText = "Carregando...";
+
+    price.id = 'priceCard';
+    price.innerText = "R$ 00.00";
+
+    divButtons.className = 'divButtons';
+
+    detailButton.className = 'detail';
+    detailButton.innerText = 'Detalhes';
+
+    addButton.className = 'add';
+    addButton.innerText = '+';
+
+    divButtons.append(detailButton, addButton)
+
+    li.append(img, type, name, price, divButtons)
+
+    return li
 }
 
 function createProductElement(product) {
@@ -90,6 +142,15 @@ function createProductElement(product) {
 
 function renderCards(products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
+   
+        if(!products){
+             ul.innerHTML = "Não foi possivel encontrar os produtos. :("
+             return
+        }else if (products.length == 0){
+            ul.innerHTML = "Não foi possivel encontrar os produtos. :("
+            return
+        }
+    
     const paginationText = document.querySelector('.pagination-text');
     const itemsPerPage = 10;
     const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -97,6 +158,7 @@ function renderCards(products, pageIndex) {
     const endIndex = Math.min(startIndex + itemsPerPage, products.length);
     const nextPage = document.querySelector('.next');
     const previusPage = document.querySelector('.previous');
+
 
     if (pageIndex >= totalPages) {
         pageIndex = totalPages - 1;
