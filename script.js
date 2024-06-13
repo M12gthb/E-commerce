@@ -17,10 +17,9 @@ async function main() {
 async function requestCompanies() {
     const ul = document.querySelector(".cards-Container")
 
-    if (window.location.pathname === "/") {
+    if (window.location.pathname === "/index.html") {
     for(let i = 0; i < 10; i++){
         const product = loaderProductEelement()
-        console.log(product)
         ul.appendChild(product)
     }
         try {
@@ -68,7 +67,7 @@ async function requestCompanies() {
 }
 
 function footerButton() {
-    const footerButton = document.querySelector('.footer-button');
+    const footerButton = document.querySelector('footer');
     footerButton.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
