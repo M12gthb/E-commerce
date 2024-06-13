@@ -163,22 +163,18 @@ function createProductElement(product) {
 function renderCards(products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
    
-        if(!products){
-             ul.innerHTML = "Não foi possivel encontrar os produtos. :("
-             return
-        }else if (products.length == 0){
-            ul.innerHTML = "Não foi possivel encontrar os produtos. :("
-            return
-        }
+    if (!products || products.length == 0) {
+        ul.innerHTML = "Não foi possível encontrar os produtos. :(";
+        return;
+    }
     
     const paginationText = document.querySelector('.pagination-text');
-    const itemsPerPage = 10;
+    const itemsPerPage = 15;
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const startIndex = pageIndex * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, products.length);
     const nextPage = document.querySelector('.next');
-    const previusPage = document.querySelector('.previous');
-
+    const previousPage = document.querySelector('.previous');
 
     if (pageIndex >= totalPages) {
         pageIndex = totalPages - 1;
@@ -190,18 +186,18 @@ function renderCards(products, pageIndex) {
     if (totalPages > 1) {
         paginationText.innerText = ` ${pageIndex + 1} de ${totalPages}`;
         paginationText.style.display = 'block';
-        previusPage.style.display = 'block';
+        previousPage.style.display = 'block';
         nextPage.style.display = 'block';
     } else {
         paginationText.style.display = 'none';
-        previusPage.style.display = 'none';
+        previousPage.style.display = 'none';
         nextPage.style.display = 'none';
     }
 
     ul.innerHTML = '';
 
-    for (let i = 0; i < endIndex - startIndex; i++) {
-        const productElement = createProductElement(products[startIndex + i]);
+    for (let i = startIndex; i < endIndex; i++) {
+        const productElement = createProductElement(products[i]);
         ul.appendChild(productElement);
     }
 
@@ -213,7 +209,6 @@ function renderCards(products, pageIndex) {
         });
     });
     
-
     const addButton = document.querySelectorAll('.add');
     addButton.forEach(button => {
         button.addEventListener('click', () => {
@@ -235,9 +230,10 @@ function renderCards(products, pageIndex) {
 }
 
 function setupPagination(products) {
-    const totalPages = Math.ceil(products.length / 10);
+    const itemsPerPage = 15;
+    const totalPages = Math.ceil(products.length / itemsPerPage);
     const nextPage = document.querySelector('.next');
-    const previusPage = document.querySelector('.previous');
+    const previousPage = document.querySelector('.previous');
     let index = 0;
 
     const updatePage = (newIndex) => {
@@ -249,12 +245,13 @@ function setupPagination(products) {
         updatePage(index + 1);
     });
 
-    previusPage.addEventListener('click', () => {
+    previousPage.addEventListener('click', () => {
         updatePage((index - 1 + totalPages) % totalPages);
     });
 
     renderCards(products, index);
 }
+
 
 function setUpSearch(products) {
     const allProducts = products;
