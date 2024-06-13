@@ -6,9 +6,13 @@
     box-sizing: border-box;
     border: none;
 }
-
 button, select, .cart-Button, .imag{
     cursor: pointer;
+}
+
+img{
+    height: 50px;
+    width: 50px;
 }
 
 header {
@@ -57,7 +61,44 @@ header {
     border-radius: 50%;
 }
 
+footer {
+    font-family: "Oleo Script", system-ui;
+    color: whitesmoke;
+    background-color: black;
+    font-size: medium;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 16px 8px;
+    gap: 15px;
+    margin-top: 10px;
+}
+@media (min-width: 1024px) {
+    footer{
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+}
+footer > button {
+    color: whitesmoke;
+    background-color: rgb(31, 30, 30);
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
 
+.app-continer {
+    width: 100%;
+    min-height: 85.5vh;
+    padding-top: 100px;
+    background-color: #fbfeff;
+}
 
 
 
