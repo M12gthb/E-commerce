@@ -18,7 +18,7 @@ async function renderProduct() {
 
 function renderProductDetailCard(products){
     const product = products.find(element => element.id == cartId)
-    const detailMain = document.querySelector(".detail-Container")
+    const detailMain = document.querySelector(".app-continer")
     const img = document.createElement("img")
     const type = document.createElement("p")
     const name = document.createElement("h1")
@@ -38,9 +38,20 @@ function renderProductDetailCard(products){
 
 }
 
+function footerButton() {
+    const footerButton = document.querySelector('footer');
+    footerButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
 
 renderProduct()
 verifylocalStorage()
 renderCart()
 updateCount()
 updateLocalStorage()
+footerButton()

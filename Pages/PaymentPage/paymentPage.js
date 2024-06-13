@@ -141,7 +141,7 @@ function removeAll(cart) {
 }
 
 function renderCartDetails() {
-    const container = document.querySelector(".paymentList-container");
+    const container = document.querySelector(".app-continer");
    
     container.innerHTML = '';
 
@@ -217,5 +217,16 @@ function renderCartDetails() {
     }
 }
 
+function footerButton() {
+    const footerButton = document.querySelector('footer');
+    footerButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
 verifylocalStoragePay();
 renderCartDetails();
+footerButton()
