@@ -323,6 +323,7 @@ footer > button {
     margin: 0 auto;
     @media (min-width:824px) {
         min-height: 85.5vh;
+        padding: 10px;
         width: 90%;
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -354,9 +355,11 @@ footer > button {
     border-radius: var(--border-radius-medium);
     gap: 10px;
     word-spacing: 2px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), 5px 5px 15px rgba(0, 0, 0, 0.2);
     @media (max-width:825px) {
         background-color: var(--white-default);
         min-width: 320px;
+        box-shadow: border-box;
     };
 }
 .imag {
