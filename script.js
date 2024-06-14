@@ -17,8 +17,8 @@ async function main() {
 async function requestCompanies() {
     const ul = document.querySelector(".cards-Container")
 
-    if (window.location.pathname === "/") {
-        for(let i = 0; i < 10; i++){
+    if (window.location.pathname === "/" || window.location.pathname === "/index.html" ) {
+        for(let i = 0; i < 20; i++){
             const product = loaderProductEelement()
             ul.appendChild(product)
         }
@@ -234,12 +234,20 @@ function setupPagination(products) {
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const nextPage = document.querySelector('.next');
     const previousPage = document.querySelector('.previous');
+    const divPag = document.querySelector(".pagination-container")
     let index = 0;
 
-    const updatePage = (newIndex) => {
+   const updatePage = (newIndex) => {
         index = (newIndex + totalPages) % totalPages;
         renderCards(products, index);
     };
+
+    if(products.length == 0){
+        divPag.style.display = "none"
+    }
+    else{
+        divPag.style.display = "flex"
+    }
 
     nextPage.addEventListener('click', () => {
         updatePage(index + 1);
@@ -323,8 +331,6 @@ function renderCart() {
 
     if (cart.size == 0) { 
         const title = document.createElement("h1")
-        title.innerText = "Carrinho"
-        totalItens.innerHTML = ""
         cartCount.style.display = "none"
         return ul.appendChild(title)
     }
