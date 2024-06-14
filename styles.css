@@ -359,7 +359,7 @@ footer > button {
     @media (max-width:825px) {
         background-color: var(--white-default);
         min-width: 320px;
-        box-shadow: border-box;
+        box-shadow: none;
     };
 }
 .imag {
