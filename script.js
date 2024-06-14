@@ -17,11 +17,11 @@ async function main() {
 async function requestCompanies() {
     const ul = document.querySelector(".cards-Container")
 
-    if (window.location.pathname === "/index.html") {
-    for(let i = 0; i < 10; i++){
-        const product = loaderProductEelement()
-        ul.appendChild(product)
-    }
+    if (window.location.pathname === "/") {
+        for(let i = 0; i < 10; i++){
+            const product = loaderProductEelement()
+            ul.appendChild(product)
+        }
         try {
             const response = await fetch('https://e-commerce-api-one-tawny.vercel.app/products', {
                 method: 'GET',
@@ -162,14 +162,14 @@ function createProductElement(product) {
 
 function renderCards(products, pageIndex) {
     const ul = document.querySelector('.cards-Container');
-   
-    if (!products || products.length == 0) {
+
+    if (!products || products.length === 0) {
         ul.innerHTML = "Não foi possível encontrar os produtos. :(";
         return;
     }
-    
+
     const paginationText = document.querySelector('.pagination-text');
-    const itemsPerPage = 15;
+    const itemsPerPage = 20;
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const startIndex = pageIndex * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, products.length);
@@ -184,7 +184,7 @@ function renderCards(products, pageIndex) {
     }
 
     if (totalPages > 1) {
-        paginationText.innerText = ` ${pageIndex + 1} de ${totalPages}`;
+        paginationText.innerText = `${pageIndex + 1} de ${totalPages}`;
         paginationText.style.display = 'block';
         previousPage.style.display = 'block';
         nextPage.style.display = 'block';
@@ -208,7 +208,7 @@ function renderCards(products, pageIndex) {
             window.location.assign("Pages/DetailPage/detailPage.html");
         });
     });
-    
+
     const addButton = document.querySelectorAll('.add');
     addButton.forEach(button => {
         button.addEventListener('click', () => {
@@ -230,7 +230,7 @@ function renderCards(products, pageIndex) {
 }
 
 function setupPagination(products) {
-    const itemsPerPage = 15;
+    const itemsPerPage = 20;
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const nextPage = document.querySelector('.next');
     const previousPage = document.querySelector('.previous');
@@ -251,7 +251,6 @@ function setupPagination(products) {
 
     renderCards(products, index);
 }
-
 
 function setUpSearch(products) {
     const allProducts = products;
@@ -349,6 +348,7 @@ function renderCart() {
         if (!li) {
             li = document.createElement("li");
             li.id = `cart-item-${element.findProduct.id}`;
+            li.className = "cart-item"
             
             const img = document.createElement("img");
             img.src = element.findProduct.image;
@@ -356,6 +356,9 @@ function renderCart() {
             
             const title = document.createElement("h3");
             title.innerText = element.findProduct.name;
+
+            const divDaI = document.createElement("div")
+            divDaI.className = "DaI-Container"
             
             const decrement = document.createElement("button");
             decrement.id = element.id
@@ -371,16 +374,20 @@ function renderCart() {
             
             const remove = document.createElement("button");
             remove.id = element.id
-            remove.innerText = "Remove";
+            remove.className = "remove-Item-Cart"
+            remove.innerText = "Remover";
+
+            divDaI.append(decrement,count, increment)
             
             decrement.addEventListener("click", () => updateCount(element.findProduct.id, -1, cart));
             increment.addEventListener("click", () => updateCount(element.findProduct.id, 1, cart));
             remove.addEventListener("click", () => removeItem(element.findProduct.id, cart));
             removeAllButton.innerText = "Remover tudo";
+            removeAllButton.className = "removeAll"
             removeAllButton.addEventListener("click", () => removeAllCart(cart));
             
             
-            li.append(img, title, decrement, count, increment, remove);
+            li.append(img, title, divDaI, remove);
             ul.append(li, removeAllButton); 
         } else {
             li.querySelector(".count").innerText = element.count;
@@ -391,6 +398,7 @@ function renderCart() {
         const finalbuyer = document.createElement("a")
         finalbuyer.innerText = "Finalizar Compra"
         finalbuyer.href = "/Pages/PaymentPage/paymentPage.html"
+        finalbuyer.className = "finalbuyer"
         if (window.location.pathname === "/Pages/DetailPage/detailPage.html") {
             finalbuyer.href = "../PaymentPage/paymentPage.html"
         }
