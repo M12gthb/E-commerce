@@ -22,6 +22,7 @@ a{
     display: flex; 
     align-items: center;
     justify-content: center;
+    color: var(--white-default);
 }
 
 
@@ -100,7 +101,7 @@ li{
     }
 }
 .divBack > a {
-    color: var(--text-color);
+    color: var(--white-default);
     font-size: 1rem;
     display: flex;
     align-items: center;
