@@ -23,7 +23,6 @@
     --purple-medium: #9575CD;
     --purple-dark: #673AB7;
 }
-
 * {
     margin: 0;
     padding: 0;
@@ -49,6 +48,8 @@ img {
 li{
     list-style: none;
 }
+
+
 
 header {
     width: 100%;
@@ -245,10 +246,14 @@ footer > button {
 .app-continer {
     width: 100%;
     min-height: 85.5vh;
-    padding-top: 100px;
     background-color: var(--container-bg-color);
     font-family: "Vollkorn", serif;
+    position: relative;
+    top: 71px;
+    padding-top: 20px;
+
 }
+
 
 .imag {
     height: auto;
@@ -260,7 +265,6 @@ footer > button {
     display: flex;
     justify-content: center;
 }
-
 .imag:hover {
     transform: scale(2);
     opacity: 1;
