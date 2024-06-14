@@ -248,10 +248,7 @@ footer > button {
     min-height: 85.5vh;
     background-color: var(--container-bg-color);
     font-family: "Vollkorn", serif;
-    position: relative;
-    top: 71px;
-    padding-top: 20px;
-
+    padding-top: 70px;
 }
 
 
@@ -293,7 +290,6 @@ footer > button {
     animation: l27 1s infinite steps(8);
     align-self: center;
 }
-
 @keyframes l27 {
     100% { transform: rotate(1turn); }
 }

@@ -19,23 +19,30 @@ async function renderProduct() {
 function renderProductDetailCard(products){
     const product = products.find(element => element.id == cartId)
     const detailMain = document.querySelector(".app-continer")
+    const detailDiv = document.createElement("div")
     const img = document.createElement("img")
     const type = document.createElement("p")
     const name = document.createElement("h1")
-    const detail = document.createElement("hp")
-    const price = document.createElement("p")
+    const detail = document.createElement("p")
+    const price = document.createElement("h3")
     const backToIndex = document.createElement("a")
+    const divInfo = document.createElement("div")
+
+    detailDiv.className = "detailDiv"
+    divInfo.className = "divInfo"
 
     img.src = product.image
-    type.innerText = product.type
+    img.className = "detailImg"
     name.innerText = product.name
     detail.innerText = product.text
     price.innerText = `R$ ${product.price.toFixed(2)}`
     backToIndex.href = "../../index.html"
+    backToIndex.className = "backToIndex"
     backToIndex.innerText = "Continuar comprando"
 
-    detailMain.append(img,type,name,detail,price,backToIndex)
-
+    divInfo.append(name,detail,price,backToIndex)
+    detailDiv.append(img,divInfo)
+    detailMain.appendChild(detailDiv)
 }
 
 function footerButton() {
@@ -47,7 +54,6 @@ function footerButton() {
         });
     });
 }
-
 
 renderProduct()
 verifylocalStorage()

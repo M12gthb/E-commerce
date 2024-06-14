@@ -1,0 +1,51 @@
+@import url('../../styles.css');
+
+.detailDiv {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+    @media (min-width: 1245px) {
+        flex-direction: row;
+        gap: 10px;
+    }
+}
+.detailImg {
+    width: 100%;
+    max-width: 700px;
+    height: 300px;
+    border-radius: var(--border-radius-small); 
+    @media (min-width: 425px) {
+        height: 600px;
+    }
+}
+.divInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+}
+.divInfo > h1 {
+    font-size: 2.5rem;
+}
+.divInfo > p {
+    font-size: 1rem;
+    font-family: "Vollkorn", serif;
+    line-height: normal;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.divInfo > h3 {
+    font-size: 1.5rem;
+    font-family: "Vollkorn", serif;
+    line-height: normal;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.backToIndex{
+    color: var(--text-color);
+    font-size: 1rem;
+}
+.backToIndex:hover{
+    color: var(--purple-dark);
+}
