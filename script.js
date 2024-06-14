@@ -252,10 +252,18 @@ function setupPagination(products) {
 
     nextPage.addEventListener('click', () => {
         updatePage(index + 1);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 
     previousPage.addEventListener('click', () => {
         updatePage((index - 1 + totalPages) % totalPages);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 
     renderCards(products, index);
@@ -436,7 +444,6 @@ function renderCart() {
         ul.appendChild(finalbuyer);
     }
 }
-
 
 function updateCount(productId, change, cart) {
     if (cart.has(productId)) {
