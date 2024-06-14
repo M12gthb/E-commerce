@@ -1,0 +1,241 @@
+.app-continer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    @media (min-width: 1260px) {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        width: 70%;
+        justify-content: center;
+   }
+}
+
+a{
+    background: var(--loader-color);
+    border-radius: var(--border-radius-small);
+    font-weight: 700;
+    height: 30px;
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+
+.paymentList-container{
+    width: 95%;
+    @media (min-width: 1260px) {
+        width: 40%;
+        gap: 5px;
+   }
+}
+ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+         gap: 10px;
+         height: 400px;
+    }
+}
+ul::-webkit-scrollbar {
+    width: 5px; 
+}
+ul::-webkit-scrollbar-track {
+    background: var(--container-bg-color); 
+}
+ul::-webkit-scrollbar-thumb {
+    background: var(--white-default); 
+    border-radius: var(--border-radius-large)
+}
+ul::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.imgItem{
+    border-radius: var(--border-radius-small);
+    height: 100px;
+    width: 100px;
+    @media (min-width: 1260px) {
+        height: 50px;
+        width: 50px;
+   }
+}
+.hrDiv, hr{
+    width: 100%;
+    height: 2px;
+    border-radius: var(--border-radius-small);
+    background-color: var(--text-color);
+    margin: 10px 0 ;
+}
+.divTotal{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.divBack{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.divBack > button{
+    color: var(--white-default);
+    background-color: var(--delete-color);
+    height: 30px;
+    border-radius: var(--border-radius-small);
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+li{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+.divBack > a {
+    color: var(--text-color);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.divInfos{
+    display: flex;
+    gap: 15px;
+    @media (min-width: 1024px) {
+        font-size: 0.8rem;
+   }
+}
+.divIDC{
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+.divIDC > button{
+    background-color: transparent;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    @media (min-width: 1024px) {
+        padding-right: 5px;
+    }
+}
+.divIDCR{
+    display: flex;
+    flex-direction: column;
+}
+.divIDCR > button{
+    background-color: var(--delete-color);
+    color: var(--white-default);
+    font-size: small;
+    border-radius: var(--border-radius-small);
+    height: 30px;
+    width: 70px;
+    font-weight: 700;
+    @media (min-width: 1024px) {
+        height: 18px;
+        font-size: 0.6rem;
+   }
+}
+
+#paymentForm{
+    border-radius: var(--border-radius-small);
+    background-color: var(--white-default);
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 1260px) {
+        width: 400px;
+   }
+}
+#paymentForm > input{
+    background-color: var(--text-color-2);
+    height: 40px;
+    border-radius: var(--border-radius-small);
+    padding-left: 16px;
+    font-size: smaller;
+}
+#paymentForm > input:focus{
+    border: 1px solid var(--text-color);
+}
+.cartDiv{
+    background-color: var(--text-color-2);
+    height: 40px;
+    border-radius: var(--border-radius-small);
+    font-size: smaller;
+    position: relative;
+}
+.cartDiv > input{
+    padding-left: 16px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border-radius: var(--border-radius-small);
+}
+.cartDiv > input:focus{
+    border: 1px solid var(--text-color);
+
+}
+.cartDiv > img {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+}
+.error{
+    font-size: x-small;
+    color: var(--delete-color);
+    height: 7px;
+}
+.date-cvv{
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
+    gap: 20px;
+    height: 90px;
+}
+.date{
+    display: flex;
+    flex-direction: column;
+}
+.date > input {
+    background-color: var(--text-color-2);
+    height: 40px;
+    border-radius: var(--border-radius-small);
+    padding-left: 5%;
+    font-size: smaller;
+    width: 100%;
+}
+.cvv{
+    display: flex;
+    flex-direction: column;
+}
+.cvv> input {
+    background-color: var(--text-color-2);
+    height: 40px;
+    border-radius: var(--border-radius-small);
+    font-size: smaller;
+    padding-left: 5%;
+    font-size: smaller;
+    width: 100%;
+}
+#paymentForm > button{
+    background: var(--loader-color);
+    border-radius: var(--border-radius-small);
+    font-weight: 700;
+    height: 30px;
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    color: var(--white-default);
+    justify-content: center;
+}

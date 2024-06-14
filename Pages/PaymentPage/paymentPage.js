@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const expiryDate = document.getElementById('expiryDate').value;
             if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
                 isValid = false;
-                document.getElementById('expiryDateError').textContent = 'Formato da data de expiração deve ser MM/AA.';
+                document.getElementById('expiryDateError').textContent = 'Data de expiração deve ser MM/AA.';
             }
 
             const cvv = document.getElementById('cvv').value;
@@ -141,7 +141,7 @@ function removeAll(cart) {
 }
 
 function renderCartDetails() {
-    const container = document.querySelector(".app-continer");
+    const container = document.querySelector(".paymentList-container");
    
     container.innerHTML = '';
 
@@ -154,6 +154,7 @@ function renderCartDetails() {
         container.append(h1, back);
     } else {
         const title = document.createElement("h1");
+        const div = document.createElement("div")
         const totalPrice = document.createElement("p");
         const totalToPay = document.createElement("p");
         const list = document.createElement("ul");
@@ -162,17 +163,26 @@ function renderCartDetails() {
         const back = document.createElement("a");
         back.href = "/";
         back.innerHTML = "Continuar Comprando";
+        div.className = "hrDiv"
+
 
         Array.from(cart.values()).forEach((element) => {
             let li = document.getElementById(`cart-item-${element.findProduct.id}`);
 
             if (!li) {
                 li = document.createElement("li");
+                const divInfos = document.createElement("div")
+                divInfos.className = "divInfos"
+                const divIDC = document.createElement("div")
+                divIDC.className = "divIDC"
+                const divIDCR = document.createElement("div")
+                divIDCR.className = "divIDCR"
                 li.id = `cart-item-${element.findProduct.id}`;
 
                 const img = document.createElement("img");
                 img.src = element.findProduct.image;
                 img.alt = element.findProduct.name;
+                img.className = "imgItem"
                 img.onerror = function () {
                     img.src = '../../assets/error.jpg';
                 };
@@ -194,13 +204,17 @@ function renderCartDetails() {
 
                 const remove = document.createElement("button");
                 remove.id = element.id;
-                remove.innerText = "Remove";
+                remove.innerText = "Remover";
 
                 decrement.addEventListener("click", () => updateCountPay(element.findProduct.id, -1, cart));
                 increment.addEventListener("click", () => updateCountPay(element.findProduct.id, 1, cart));
                 remove.addEventListener("click", () => removeItemPay(element.findProduct.id, cart));
 
-                li.append(img, title, decrement, count, increment, remove);
+                divInfos.append(img, title)
+                divIDC.append(decrement, count, increment)
+                divIDCR.append(divIDC, remove)
+
+                li.append(divInfos, divIDCR);
                 list.appendChild(li);
             } else {
                 li.querySelector(".count").innerText = element.count;
@@ -211,12 +225,18 @@ function renderCartDetails() {
         removeAllButton.addEventListener("click", () => removeAll(cart));
 
         title.innerText = "Itens do carrinho";
+        const divTotal = document.createElement("div")
+        const divBack = document.createElement("div")
+        divTotal.className = "divTotal"
+        divBack.className = "divBack"
         totalToPay.innerText = "Total:";
         totalPrice.innerText = `R$ ${Array.from(cart.values()).reduce((acc, item) => {
             return acc + (item.count * item.findProduct.price);
         }, 0).toFixed(2)}`;
+        divTotal.append(totalToPay, totalPrice)
+        divBack.append(removeAllButton, back)
         
-        container.append(title, list, hr, totalToPay, totalPrice, removeAllButton, back);
+        container.append(title, div, list, hr, divTotal, divBack);
     }
 }
 
