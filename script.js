@@ -165,6 +165,7 @@ function renderCards(products, pageIndex) {
 
     if (!products || products.length === 0) {
         ul.innerHTML = "Não foi possível encontrar os produtos. :(";
+        ul.style.width = "100%"
         return;
     }
 
