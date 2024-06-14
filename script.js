@@ -323,38 +323,17 @@ function renderCart() {
     const removeAllButton = document.createElement("button");
     const cartCount = document.querySelector(".cartCont");
 
-    cartModal.style.display = 'none';
-    cartModal.style.position = 'fixed';
-    cartModal.style.zIndex = '5';
-    cartModal.style.left = '0';
-    cartModal.style.top = '0';
-    cartModal.style.width = '100%';
-    cartModal.style.height = '100%';
-    cartModal.style.overflow = 'auto';
-    cartModal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-    cartModal.style.opacity = '0';
-    cartModal.style.transition = 'opacity 0.5s ease';
-
     cartButton.addEventListener("click", () => {
-        cartModal.style.display = 'block';
-        setTimeout(() => {
-            cartModal.style.opacity = '1';
-        }, 10);
+        cartModal.showModal()
     });
 
     closeButton.addEventListener("click", () => {
-        cartModal.style.opacity = '0';
-        setTimeout(() => {
-            cartModal.style.display = 'none';
-        }, 500);
+       cartModal.close()
     });
 
     window.onclick = function(event) {
         if (event.target === cartModal) {
-            cartModal.style.opacity = '0';
-            setTimeout(() => {
-                cartModal.style.display = 'none';
-            }, 500);
+            cartModal.close()
         }
     };
 
@@ -455,14 +434,14 @@ function updateCount(productId, change, cart) {
         } else {
             cart.set(productId, currentItem);
         }
-        renderCart(cart); 
+        renderCart(); 
     }
     updateLocalStorage()
 }
 
 function removeItem(productId, cart) {
     cart.delete(productId);
-    renderCart(cart); 
+    renderCart(); 
     updateLocalStorage()
 }
 
@@ -471,6 +450,7 @@ function removeAllCart(cart) {
     updateLocalStorage();
     renderCart()
 }
+
 
 function verifylocalStorage() {
     const verification = localStorage.getItem("cart");
