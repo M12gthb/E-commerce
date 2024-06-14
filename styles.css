@@ -355,7 +355,7 @@ footer > button {
     background-color: var(--text-color-2);
     border-radius: var(--border-radius-medium);
     gap: 10px;
-    max-height: 426.6px;
+    max-height: 465.4px;
     word-spacing: 2px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), 5px 5px 15px rgba(0, 0, 0, 0.2);
     @media (max-width:825px) {
@@ -375,7 +375,7 @@ footer > button {
 }
 .card > h3{
     font-size: 1.5rem;
-    height: 100px;
+    height: 150px;
 }
 .typeCard{
     height: 25px;
@@ -389,7 +389,7 @@ footer > button {
     border-radius: var(--border-radius-large);
 }
 .card > p{
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 .divButtons{
     width: 100%;
