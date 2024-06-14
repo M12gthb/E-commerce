@@ -308,44 +308,65 @@ function renderCart() {
     const cartButton = document.querySelector(".cart-Button");
     const cartModal = document.querySelector(".cart");
     const closeButton = document.querySelector(".cart-closeButton");
-    const totalPrice = document.createElement("h1")
-    const totalCount = document.createElement("h1")
-    const totalItens = document.querySelector(".cartCont")
-    const removeAllButton = document.createElement("button")
-    const cartCount = document.querySelector(".cartCont")
+    const totalPrice = document.createElement("h1");
+    const totalCount = document.createElement("h1");
+    const totalItens = document.querySelector(".cartCont");
+    const removeAllButton = document.createElement("button");
+    const cartCount = document.querySelector(".cartCont");
+
+    cartModal.style.display = 'none';
+    cartModal.style.position = 'fixed';
+    cartModal.style.zIndex = '5';
+    cartModal.style.left = '0';
+    cartModal.style.top = '0';
+    cartModal.style.width = '100%';
+    cartModal.style.height = '100%';
+    cartModal.style.overflow = 'auto';
+    cartModal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    cartModal.style.opacity = '0';
+    cartModal.style.transition = 'opacity 0.5s ease';
 
     cartButton.addEventListener("click", () => {
-        cartModal.showModal();
-
-        closeButton.addEventListener("click", () => {
-            cartModal.close();
-        });
-        cartModal.addEventListener('click', (event) => {
-            if (event.target === cartModal) {
-                cartModal.close();
-            }
-        });
+        cartModal.style.display = 'block';
+        setTimeout(() => {
+            cartModal.style.opacity = '1';
+        }, 10);
     });
+
+    closeButton.addEventListener("click", () => {
+        cartModal.style.opacity = '0';
+        setTimeout(() => {
+            cartModal.style.display = 'none';
+        }, 500);
+    });
+
+    window.onclick = function(event) {
+        if (event.target === cartModal) {
+            cartModal.style.opacity = '0';
+            setTimeout(() => {
+                cartModal.style.display = 'none';
+            }, 500);
+        }
+    };
 
     ul.innerHTML = "";
 
     if (cart.size == 0) { 
-        const title = document.createElement("h1")
-        cartCount.style.display = "none"
-        return ul.appendChild(title)
-    }
-    else{
-        cartCount.style.display = "block"
-        totalItens.innerText = `${Array.from(cart.values()).reduce((acc, item)=> {
-            return acc + item.count
-        },0)}`
-        totalPrice.innerText = `Total: R$ ${Array.from(cart.values()).reduce((acc, item)=> {
-            return acc + (item.count * item.findProduct.price)
-        },0).toFixed(2)}`
-        totalCount.innerText = `Quantidade: ${Array.from(cart.values()).reduce((acc, item)=> {
-            return acc + item.count
-        },0)}`
-        ul.append(totalPrice, totalCount)
+        const title = document.createElement("h1");
+        cartCount.style.display = "none";
+        return ul.appendChild(title);
+    } else {
+        cartCount.style.display = "block";
+        totalItens.innerText = `${Array.from(cart.values()).reduce((acc, item) => {
+            return acc + item.count;
+        }, 0)}`;
+        totalPrice.innerText = `Total: R$ ${Array.from(cart.values()).reduce((acc, item) => {
+            return acc + (item.count * item.findProduct.price);
+        }, 0).toFixed(2)}`;
+        totalCount.innerText = `Quantidade: ${Array.from(cart.values()).reduce((acc, item) => {
+            return acc + item.count;
+        }, 0)}`;
+        ul.append(totalPrice, totalCount);
     }
 
     Array.from(cart.values()).forEach((element) => {
@@ -354,11 +375,11 @@ function renderCart() {
         if (!li) {
             li = document.createElement("li");
             li.id = `cart-item-${element.findProduct.id}`;
-            li.className = "cart-item"
+            li.className = "cart-item";
             
             const img = document.createElement("img");
             img.src = element.findProduct.image;
-            img.alt = element.findProduct.name
+            img.alt = element.findProduct.name;
             img.onerror = function () {
                 img.src = './assets/error.jpg';
             };
@@ -366,11 +387,11 @@ function renderCart() {
             const title = document.createElement("h3");
             title.innerText = element.findProduct.name;
 
-            const divDaI = document.createElement("div")
-            divDaI.className = "DaI-Container"
+            const divDaI = document.createElement("div");
+            divDaI.className = "DaI-Container";
             
             const decrement = document.createElement("button");
-            decrement.id = element.id
+            decrement.id = element.id;
             decrement.innerText = "-";
             
             const count = document.createElement("p");
@@ -378,43 +399,43 @@ function renderCart() {
             count.className = "count";
 
             const increment = document.createElement("button");
-            increment.id = element.id
+            increment.id = element.id;
             increment.innerText = "+";
             
             const remove = document.createElement("button");
-            remove.id = element.id
-            remove.className = "remove-Item-Cart"
+            remove.id = element.id;
+            remove.className = "remove-Item-Cart";
             remove.innerText = "Remover";
 
-            divDaI.append(decrement,count, increment)
+            divDaI.append(decrement, count, increment);
             
             decrement.addEventListener("click", () => updateCount(element.findProduct.id, -1, cart));
             increment.addEventListener("click", () => updateCount(element.findProduct.id, 1, cart));
             remove.addEventListener("click", () => removeItem(element.findProduct.id, cart));
             removeAllButton.innerText = "Remover tudo";
-            removeAllButton.className = "removeAll"
+            removeAllButton.className = "removeAll";
             removeAllButton.addEventListener("click", () => removeAllCart(cart));
             
-            
             li.append(img, title, divDaI, remove);
-            ul.append(li, removeAllButton); 
+            ul.append(li, removeAllButton);
         } else {
             li.querySelector(".count").innerText = element.count;
         }
     });
 
-    if (cart.size > 0){
-        const finalbuyer = document.createElement("a")
-        finalbuyer.innerText = "Finalizar Compra"
-        finalbuyer.href = "/Pages/PaymentPage/paymentPage.html"
-        finalbuyer.className = "finalbuyer"
+    if (cart.size > 0) {
+        const finalbuyer = document.createElement("a");
+        finalbuyer.innerText = "Finalizar Compra";
+        finalbuyer.href = "/Pages/PaymentPage/paymentPage.html";
+        finalbuyer.className = "finalbuyer";
         if (window.location.pathname === "/Pages/DetailPage/detailPage.html") {
-            finalbuyer.href = "../PaymentPage/paymentPage.html"
+            finalbuyer.href = "../PaymentPage/paymentPage.html";
         }
         
-        ul.appendChild(finalbuyer)
+        ul.appendChild(finalbuyer);
     }
 }
+
 
 function updateCount(productId, change, cart) {
     if (cart.has(productId)) {
