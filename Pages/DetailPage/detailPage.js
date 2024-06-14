@@ -32,6 +32,10 @@ function renderProductDetailCard(products){
     divInfo.className = "divInfo"
 
     img.src = product.image
+    img.onerror = function () {
+        img.src = '../../assets/error.jpg';
+    };
+
     img.className = "detailImg"
     name.innerText = product.name
     detail.innerText = product.text

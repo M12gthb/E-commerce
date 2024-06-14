@@ -173,6 +173,9 @@ function renderCartDetails() {
                 const img = document.createElement("img");
                 img.src = element.findProduct.image;
                 img.alt = element.findProduct.name;
+                img.onerror = function () {
+                    img.src = '../../assets/error.jpg';
+                };
 
                 const title = document.createElement("h3");
                 title.innerText = element.findProduct.name;
